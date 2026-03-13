@@ -4,7 +4,7 @@
       <div class="filter-row">
         <div class="filter-item">
           <app-p-input-text
-            [value]="filterForm.get('search')!.value"
+            [value]="filterForm.get('search')!.value ?? ''"
             placeholder="Search countries..."
             (valueChange)="filterForm.get('search')!.setValue($event)">
           </app-p-input-text>
