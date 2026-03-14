@@ -1,8 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
 
 @Component({
-  selector: 'app-p-input-text',
+  selector: "app-p-input-text",
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <input
       pInputText
@@ -10,12 +17,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [value]="value"
       [placeholder]="placeholder"
       (input)="onInput($event)"
-      [style]="{ width: '100%' }" />
-  `
+      [style]="{ width: '100%' }"
+    />
+  `,
 })
 export class PInputTextComponent {
-  @Input() value = '';
-  @Input() placeholder = '';
+  @Input() value = "";
+  @Input() placeholder = "";
   @Output() valueChange = new EventEmitter<string>();
 
   onInput(event: Event): void {

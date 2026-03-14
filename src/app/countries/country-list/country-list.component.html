@@ -13,8 +13,10 @@
         <div class="filter-item">
           <app-p-dropdown
             [options]="regions"
-            [value]="filterForm.get('region')!.value"
+            [value]="filterForm.get('region')!.value ?? ''"
             placeholder="All Regions"
+            optionLabel="label"
+            optionValue="value"
             [showClear]="true"
             (valueChange)="filterForm.get('region')!.setValue($event)">
           </app-p-dropdown>
@@ -23,7 +25,8 @@
         <div class="filter-item">
           <app-p-dropdown
             [options]="sortOptions"
-            [value]="filterForm.get('sortBy')!.value"
+            [value]="filterForm.get('sortBy')!.value ?? ''"
+            placeholder="Sort By"
             optionLabel="label"
             optionValue="value"
             (valueChange)="filterForm.get('sortBy')!.setValue($event)">
@@ -38,17 +41,20 @@
   </div>
 
   <div class="results-info">
-    <span>{{ filteredCountries.length }} countries found</span>
+    <span>{{ filteredCountries().length }} countries found</span>
   </div>
 
-  <div class="country-grid" *ngIf="!loading">
-    <app-country-card
-      *ngFor="let country of filteredCountries"
-      [country]="country">
-    </app-country-card>
-  </div>
+  <ng-template  #countriesLoaded>
+    <div class="country-grid">
+      @for(country of filteredCountries(); track country.name){
+      <app-country-card
+        [country]="country">
+      </app-country-card>
+    }
+    </div>
+  </ng-template>
 
-  <div class="loading" *ngIf="loading">
+  <div class="loading" *ngIf="loading(); else countriesLoaded">
     <p>Loading countries...</p>
   </div>
 </div>

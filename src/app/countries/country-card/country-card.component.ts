@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { country, Currency } from "../../shared/types/country.type";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { Router } from "@angular/router";
+import { Country, Currency } from "../../shared/types/country.type";
 
 @Component({
   selector: "app-country-card",
   standalone: false,
   templateUrl: "./country-card.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountryCardComponent {
-  @Input() country!: country;
+  @Input() country!: Country;
 
   constructor(private router: Router) {}
 

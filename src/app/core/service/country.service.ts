@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from "rxjs";
-import { country } from "../../shared/types/country.type";
+import { Country } from "../../shared/types/country.type";
 import { catchError } from "rxjs/operators";
 
 @Injectable({
@@ -11,10 +11,10 @@ export class CountryService {
   private apiBaseUrl = "https://restcountries.com/v3.1";
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<country[]> {
+  getAll(): Observable<Country[]> {
     return this.http
       .get<
-        country[]
+        Country[]
       >(`${this.apiBaseUrl}/all?fields=name,capital,region,population,area,currencies,languages,flags`)
       .pipe(
         catchError((error) => {
@@ -24,8 +24,8 @@ export class CountryService {
       );
   }
 
-  getByCode(code: string): Observable<country[]> {
-    return this.http.get<country[]>(`${this.apiBaseUrl}/alpha/${code}`).pipe(
+  getByCode(code: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiBaseUrl}/alpha/${code}`).pipe(
       catchError((error) => {
         console.log("Error while fetching countries by code:", error);
         return of([]);
@@ -33,8 +33,8 @@ export class CountryService {
     );
   }
 
-  searchByName(name: string): Observable<country[]> {
-    return this.http.get<country[]>(`${this.apiBaseUrl}/name/${name}`).pipe(
+  searchByName(name: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiBaseUrl}/name/${name}`).pipe(
       catchError((error) => {
         console.log("Error while fetching countries by name:", error);
         return of([]);
@@ -42,8 +42,8 @@ export class CountryService {
     );
   }
 
-  getByRegion(region: string): Observable<country[]> {
-    return this.http.get<country[]>(`${this.apiBaseUrl}/region/${region}`).pipe(
+  getByRegion(region: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiBaseUrl}/region/${region}`).pipe(
       catchError((error) => {
         console.log("Error while fetching countries by region:", error);
         return of([]);
@@ -51,9 +51,9 @@ export class CountryService {
     );
   }
 
-  getByCodes(codes: string[]): Observable<country[]> {
+  getByCodes(codes: string[]): Observable<Country[]> {
     return this.http
-      .get<country[]>(`${this.apiBaseUrl}/alpha?codes=${codes.join(",")}`)
+      .get<Country[]>(`${this.apiBaseUrl}/alpha?codes=${codes.join(",")}`)
       .pipe(
         catchError((error) => {
           console.log("Error while fetching countries by code:", error);

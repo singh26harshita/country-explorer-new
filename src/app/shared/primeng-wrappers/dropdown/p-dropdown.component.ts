@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Options } from "../../types/country.type";
 
 @Component({
-  selector: 'app-p-dropdown',
+  selector: "app-p-dropdown",
   standalone: false,
   template: `
     <p-select
@@ -12,16 +13,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [optionValue]="optionValue"
       [showClear]="showClear"
       (ngModelChange)="valueChange.emit($event)"
-      [style]="{ width: '100%' }">
+      [style]="{ width: '100%' }"
+    >
     </p-select>
-  `
+  `,
 })
 export class PDropdownComponent {
-  @Input() options: any[] = [];
-  @Input() value: any;
-  @Input() placeholder = '';
-  @Input() optionLabel = '';
-  @Input() optionValue = '';
+  @Input() options: Options[] = [];
+  @Input() value!: string;
+  @Input() placeholder = "";
+  @Input() optionLabel = "";
+  @Input() optionValue = "";
   @Input() showClear = false;
-  @Output() valueChange = new EventEmitter<any>();
+  @Output() valueChange = new EventEmitter<string>();
 }
