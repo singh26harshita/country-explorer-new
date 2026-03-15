@@ -1,0 +1,75 @@
+@if(countriesToCompare.length > 0) {
+    <table class="compare-table">
+  <thead>
+    <tr>
+      <th>Attribute</th>
+        @for(country of countriesToCompare; track country.name.common){
+           <td> {{ country.name.common }}</td> 
+        }
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>Flag</td>
+        @for(country of countriesToCompare; track country.name.common){
+            <td>    
+                <img class="compare-flag-img" [src]="country.flags.png" [alt]="'flag of '+country.name.common" />
+            </td>
+        }
+    </tr>
+    <tr>
+      <td>Population</td>
+      @for(country of countriesToCompare; track country.population){
+            <td>{{ country.population }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Area (km²)</td>
+        @for(country of countriesToCompare; track country.area){
+            <td>{{ country.area }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Capital</td>
+       @for(country of countriesToCompare; track country.name.common){
+            <td>{{ country.capital }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Region</td>
+       @for(country of countriesToCompare; track country.name.common){
+            <td>{{ country.region }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Currencies</td>
+       @for(country of countriesToCompare; track country.name.common){
+            <td>{{ getCurrencies(country) }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Languages</td>
+       @for(country of countriesToCompare; track country.name.common){
+            <td>{{ getLanguages(country) }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Timezones</td>
+       @for(country of countriesToCompare; track country.name.common){
+            <td>{{ getTimeZones(country) }}</td>
+        }
+    </tr>
+    <tr>
+      <td>Borders</td>
+       @for(country of countriesToCompare; track country.name.common){
+            <td>{{ getBorders(country) }}</td>
+        }
+    </tr>
+  </tbody>
+</table>
+}
+@else {
+    <p>Nothing to compare ! Please select countries to compare from page 
+        <a routerLink="/countries">COUNTRIES</a>
+    </p>
+}

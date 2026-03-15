@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import { Country, Currency } from "../../shared/types/country.type";
+import { Country } from "../../shared/types/country.type";
+import {
+  formatCurrencies,
+  formatLanguages,
+  formatPopulation,
+} from "../../shared/utils/country-utils";
 
 @Component({
   selector: "app-country-card",
@@ -11,27 +15,16 @@ import { Country, Currency } from "../../shared/types/country.type";
 export class CountryCardComponent {
   @Input() country!: Country;
 
-  constructor(private router: Router) {}
-
   getPopulation(): string {
-    if (this.country.population > 1000000) {
-      return (this.country.population / 1000000).toFixed(1) + "M";
-    } else if (this.country.population > 1000) {
-      return (this.country.population / 1000).toFixed(1) + "K";
-    }
-    return this.country.population.toString();
+    return formatPopulation(this.country?.population);
   }
 
   getCurrencies(): string {
-    if (!this.country.currencies) return "N/A";
-    return Object.values(this.country.currencies)
-      .map((c: Currency) => c.name)
-      .join(", ");
+   return formatCurrencies(this.country.currencies);
   }
 
   getLanguages(): string {
-    if (!this.country.languages) return "N/A";
-    return Object.values(this.country.languages).join(", ");
+   return formatLanguages(this.country.languages);
   }
 
   onCardClick(): void {

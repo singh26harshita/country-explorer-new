@@ -3,7 +3,6 @@ import {
   Component,
   DestroyRef,
   inject,
-  OnDestroy,
   OnInit,
   signal,
 } from "@angular/core";
@@ -12,6 +11,11 @@ import { CountryService } from "../../core/service/country.service";
 import { Country } from "../../shared/types/country.type";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { debounceTime } from "rxjs/operators";
+import {
+  REGION_FILTER_VALUES,
+  SORT_OPTIONS,
+} from "../../shared/constants/app.constants";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-country-list",
@@ -20,32 +24,21 @@ import { debounceTime } from "rxjs/operators";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountryListComponent implements OnInit {
+  protected readonly regions = REGION_FILTER_VALUES;
+  protected readonly sortOptions = SORT_OPTIONS;
   protected countries = signal<Country[]>([]);
   protected loading = signal<boolean>(false);
   protected filteredCountries = signal<Country[]>([]);
+  protected countriesToCompare = signal<Country[]>([]);
   private destroyRef = inject(DestroyRef);
   private countryService = inject(CountryService);
+  private router = inject(Router);
 
-  filterForm = new FormGroup({
+  protected filterForm = new FormGroup({
     search: new FormControl(""),
     region: new FormControl(""),
     sortBy: new FormControl("name"),
   });
-
-  regions = [
-    { label: "Africa", value: "Africa" },
-    { label: "Americas", value: "Americas" },
-    { label: "Antarctic", value: "Antarctic" },
-    { label: "Asia", value: "Asia" },
-    { label: "Europe", value: "Europe" },
-    { label: "Oceania", value: "Oceania" },
-  ];
-
-  sortOptions = [
-    { label: "Name", value: "name" },
-    { label: "Population", value: "population" },
-    { label: "Area", value: "area" },
-  ];
 
   ngOnInit(): void {
     this.loadCountries();
@@ -91,7 +84,6 @@ export class CountryListComponent implements OnInit {
     let result: Country[] = [...this.countries()];
 
     const searchTerm = this.filterForm.get("search")!.value;
-    console.log("filter applied", searchTerm);
     if (searchTerm) {
       result = result.filter((country: Country) =>
         country.name.common.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -121,5 +113,39 @@ export class CountryListComponent implements OnInit {
     this.filterForm.get("search")!.setValue("");
     this.filterForm.get("region")!.setValue("");
     this.filterForm.get("sortBy")!.setValue("name");
+  }
+
+  onCompareChecked(selectedCountry: Country, event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.countriesToCompare.update((countries: Country[]) => {
+      if (checkbox.checked) {
+        if (this.countriesToCompare().length >= 3) {
+          return countries;
+        }
+        return [...countries, selectedCountry];
+      } else {
+        return countries.filter(
+          (country: Country) =>
+            country.name.common !== selectedCountry.name.common,
+        );
+      }
+    });
+  }
+
+  isCountrySelected(country: Country): boolean {
+    return this.countriesToCompare().some(
+      (selectedCountry) => country.name.common === selectedCountry.name.common,
+    );
+  }
+
+  isCompareDisabled(country: Country): boolean {
+    if (this.isCountrySelected(country)) return false;
+    else return this.countriesToCompare().length >= 3;
+  }
+
+  compareCountries(): void {
+    this.router.navigate(["countries/compare"], {
+      state: { countries: this.countriesToCompare() },
+    });
   }
 }

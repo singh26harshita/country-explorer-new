@@ -47,9 +47,16 @@
   <ng-template  #countriesLoaded>
     <div class="country-grid">
       @for(country of filteredCountries(); track country.name){
-      <app-country-card
-        [country]="country">
-      </app-country-card>
+      <div class="card-wrapper-overlay">
+        <app-country-card
+          [country]="country">
+        </app-country-card>
+        <input class="checkbox-overlay" type="checkbox" name="compare" 
+        [checked]="isCountrySelected(country)"
+        (change)="onCompareChecked(country, $event)"
+        [disabled]="isCompareDisabled(country)"
+        />
+      </div>
     }
     </div>
   </ng-template>
@@ -57,4 +64,18 @@
   <div class="loading" *ngIf="loading(); else countriesLoaded">
     <p>Loading countries...</p>
   </div>
+
+  @if(countriesToCompare().length>0){
+  <div class="compare-countries">
+      <div class="compare-flags">
+        @if(countriesToCompare().length >=3){
+          <p>You cannot compare more than 3 countries at a time </p>
+        }
+      @for(country of countriesToCompare(); track country.name){
+         <img class="compare-flag-img" [src]="country.flags.png" [alt]="'flag of '+country.name.common" />
+      }
+      </div>
+      <button class="compare-btn" (click)="compareCountries()" [disabled]="countriesToCompare().length<2">Compare Countries</button>
+  </div>
+}
 </div>
