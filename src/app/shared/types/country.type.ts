@@ -6,16 +6,22 @@ export type Country = {
     common: string;
   };
   population: number;
-  languages: string;
+  languages: {
+    [code: string]: string;
+  };
   region: string;
-  currencies: Currency[];
+  currencies: {
+    [code: string]: Currency;
+  };
   area: number;
   capital: string;
+  borders: any;
+  timezones: any;
 };
 
 export type Currency = {
   name: string;
-  sign: string;
+  symbol: string;
 };
 
 export type Options = {

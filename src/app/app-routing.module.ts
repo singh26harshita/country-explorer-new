@@ -3,14 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'countries',
-    loadChildren: () => import('./countries/countries.module').then(m => m.CountriesModule)
+    path: "countries",
+    loadChildren: () =>
+      import("./countries/countries.module").then((m) => m.CountriesModule),
   },
   {
-    path: '',
-    redirectTo: 'countries',
-    pathMatch: 'full'
-  }
+    path: "",
+    redirectTo: "countries",
+    pathMatch: "full",
+  },
 ];
 
 @NgModule({
