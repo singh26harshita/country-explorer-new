@@ -20,11 +20,11 @@ export class CountryCardComponent {
   }
 
   getCurrencies(): string {
-   return formatCurrencies(this.country.currencies);
+   return formatCurrencies(this.country?.currencies);
   }
 
   getLanguages(): string {
-   return formatLanguages(this.country.languages);
+   return formatLanguages(this.country?.languages);
   }
 
   onCardClick(): void {

@@ -14,8 +14,7 @@ export class CountryCompareComponent {
 
   constructor(private router: Router) {
     const navItems = this.router.getCurrentNavigation();
-    this.countriesToCompare = navItems?.extras.state?.["countries"] || [];
-    console.log(this.countriesToCompare);
+    this.countriesToCompare = navItems?.extras?.state?.["countries"] || [];
   }
 
   getPopulation(country: Country): string {
@@ -23,18 +22,18 @@ export class CountryCompareComponent {
   }
 
   getCurrencies(country: Country): string {
-    return formatCurrencies(country.currencies);
+    return formatCurrencies(country?.currencies);
   }
 
   getLanguages(country: Country): string {
-    return formatLanguages(country.languages);
+    return formatLanguages(country?.languages);
   }
 
   getTimeZones(country: Country): string {
-    return formatTimezones(country.timezones);
+    return formatTimezones(country?.timezones);
   }
 
   getBorders(country: Country): string {
-    return formatBorders(country.borders);
+    return formatBorders(country?.borders);
   }
 }

@@ -43,10 +43,15 @@
   <div class="results-info">
     <span>{{ filteredCountries().length }} countries found</span>
   </div>
+  @if(error()){
+    <div class="error-message">
+      <p>{{ error() }}</p>
+    </div>
+  }
 
   <ng-template  #countriesLoaded>
     <div class="country-grid">
-      @for(country of filteredCountries(); track country.name){
+      @for(country of filteredCountries(); track country.name.common){
       <div class="card-wrapper-overlay">
         <app-country-card
           [country]="country">
@@ -61,9 +66,14 @@
     </div>
   </ng-template>
 
-  <div class="loading" *ngIf="loading(); else countriesLoaded">
+  @if(loading()){
+    <div class="loading">
     <p>Loading countries...</p>
   </div>
+  }@else{
+     <ng-container *ngTemplateOutlet="countriesLoaded"></ng-container>
+  }
+  
 
   @if(countriesToCompare().length>0){
   <div class="compare-countries">
@@ -71,7 +81,7 @@
         @if(countriesToCompare().length >=3){
           <p>You cannot compare more than 3 countries at a time </p>
         }
-      @for(country of countriesToCompare(); track country.name){
+      @for(country of countriesToCompare(); track country.name.common){
          <img class="compare-flag-img" [src]="country.flags.png" [alt]="'flag of '+country.name.common" />
       }
       </div>

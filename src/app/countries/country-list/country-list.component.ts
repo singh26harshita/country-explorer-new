@@ -10,7 +10,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { CountryService } from "../../core/service/country.service";
 import { Country } from "../../shared/types/country.type";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import {
   REGION_FILTER_VALUES,
   SORT_OPTIONS,
@@ -30,6 +30,7 @@ export class CountryListComponent implements OnInit {
   protected loading = signal<boolean>(false);
   protected filteredCountries = signal<Country[]>([]);
   protected countriesToCompare = signal<Country[]>([]);
+  protected error = signal<string | null>(null);
   private destroyRef = inject(DestroyRef);
   private countryService = inject(CountryService);
   private router = inject(Router);
@@ -47,6 +48,7 @@ export class CountryListComponent implements OnInit {
       .get("search")
       ?.valueChanges.pipe(
         debounceTime(400),
+        distinctUntilChanged(),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => this.applyFilters());
@@ -74,6 +76,7 @@ export class CountryListComponent implements OnInit {
         },
         error: () => {
           this.countries.set([]);
+          this.error.set("Failed to load countries. Please try again later.");
           this.applyFilters();
         },
         complete: () => this.loading.set(false),
@@ -97,13 +100,15 @@ export class CountryListComponent implements OnInit {
 
     const sortBy = this.filterForm.get("sortBy")!.value;
     if (sortBy === "name") {
-      result.sort((a: Country, b: Country) =>
+      result = [...result].sort((a: Country, b: Country) =>
         a.name.common.localeCompare(b.name.common),
       );
     } else if (sortBy === "population") {
-      result.sort((a: Country, b: Country) => b.population - a.population);
+      result = [...result].sort(
+        (a: Country, b: Country) => b.population - a.population,
+      );
     } else if (sortBy === "area") {
-      result.sort((a: Country, b: Country) => b.area - a.area);
+      result = [...result].sort((a: Country, b: Country) => b.area - a.area);
     }
 
     this.filteredCountries.set(result);

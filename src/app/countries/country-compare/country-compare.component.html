@@ -19,13 +19,13 @@
     </tr>
     <tr>
       <td>Population</td>
-      @for(country of countriesToCompare; track country.population){
+      @for(country of countriesToCompare; track country.name.common){
             <td>{{ country.population }}</td>
         }
     </tr>
     <tr>
       <td>Area (km²)</td>
-        @for(country of countriesToCompare; track country.area){
+        @for(country of countriesToCompare; track country.name.common){
             <td>{{ country.area }}</td>
         }
     </tr>
