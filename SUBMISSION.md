@@ -51,4 +51,5 @@ If I had more time, I would prioritize the following enhancements to make this a
 2. In the countries list, sorting and filtering are performed on a shallow copy of the countries array. While this prevents direct mutation of the original array, the objects within the array can still be modified. For stricter immutability, I could have used a deep freeze or deep clone, but chose not to for simplicity and performance, given the small scale of this application.
 
 5. **How to run**: Any additional setup steps needed (if any)
+To run unit tests -
 ng test
