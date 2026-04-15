@@ -39,7 +39,6 @@ describe('CountryService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    TestBed.resetTestingModule();
   });
 
   it('should fetch all countries (success)', (done) => {
@@ -54,15 +53,24 @@ describe('CountryService', () => {
     req.flush(mockCountries);
   });
 
-  it('should return empty array on error', (done) => {
-    service.getAll().subscribe((countries) => {
-      expect(countries).toEqual([]);
-      done();
+  it("should emit error when request fails", (done) => {
+    service.getAll().subscribe({
+      next: () => {
+        done.fail("Expected error but got success response");
+      },
+      error: (error) => {
+        expect(error.status).toBe(500);
+        expect(error.statusText).toBe("Server error");
+        done();
+      },
     });
     const req = httpMock.expectOne(
-      `${API_BASE_URL}/all?fields=name,capital,region,population,area,currencies,languages,flags,borders,timezones`
+      `${API_BASE_URL}/all?fields=name,capital,region,population,area,currencies,languages,flags,borders,timezones`,
     );
-    expect(req.request.method).toBe('GET');
-    req.error(new ErrorEvent('Network error'));
+    expect(req.request.method).toBe("GET");
+    req.flush("something went wrong", {
+      status: 500,
+      statusText: "Server error",
+    });
   });
 });
