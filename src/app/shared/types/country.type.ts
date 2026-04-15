@@ -15,8 +15,8 @@ export type Country = {
   };
   area: number;
   capital: string;
-  borders: any;
-  timezones: any;
+  borders: string[];
+  timezones: string[];
 };
 
 export type Currency = {

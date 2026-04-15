@@ -51,8 +51,9 @@
 
   <ng-template  #countriesLoaded>
     <div class="country-grid">
-      @for(country of filteredCountries(); track country.name.common){
-      <div class="card-wrapper-overlay">
+      <!-- @for(country of filteredCountries(); track country.name.common){ -->
+    <cdk-virtual-scroll-viewport itemSize="50" class="country-virtual-scroll">
+      <div class="card-wrapper-overlay" *cdkVirtualFor="let country of filteredCountries(); trackBy: trackByCountryName">
         <app-country-card
           [country]="country">
         </app-country-card>
@@ -62,7 +63,8 @@
         [disabled]="isCompareDisabled(country)"
         />
       </div>
-    }
+      </cdk-virtual-scroll-viewport>
+    <!-- } -->
     </div>
   </ng-template>
 

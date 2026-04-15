@@ -21,6 +21,7 @@ import { Router } from "@angular/router";
   selector: "app-country-list",
   standalone: false,
   templateUrl: "./country-list.component.html",
+  styleUrls: ["./country-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountryListComponent implements OnInit {
@@ -152,5 +153,9 @@ export class CountryListComponent implements OnInit {
     this.router.navigate(["countries/compare"], {
       state: { countries: this.countriesToCompare() },
     });
+  }
+
+  trackByCountryName(index: number, country: Country) {
+    return country.name.common;
   }
 }

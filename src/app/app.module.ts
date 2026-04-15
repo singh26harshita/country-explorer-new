@@ -10,9 +10,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -23,10 +21,10 @@ import { SharedModule } from './shared/shared.module';
     provideHttpClient(),
     providePrimeNG({
       theme: {
-        preset: Aura
-      }
-    })
+        preset: Aura,
+      },
+    }),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

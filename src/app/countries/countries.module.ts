@@ -7,6 +7,7 @@ import { CountryCardComponent } from './country-card/country-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { CountryCompareComponent } from "./country-compare/country-compare.component";
 import { CountryRoutes } from "./countries.route";
+import { ScrollingModule } from "@angular/cdk/scrolling";
 @NgModule({
   declarations: [
     CountryListComponent,
@@ -17,6 +18,7 @@ import { CountryRoutes } from "./countries.route";
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
+    ScrollingModule,
     RouterModule.forChild(CountryRoutes),
   ],
 })
