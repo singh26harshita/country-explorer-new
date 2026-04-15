@@ -4,6 +4,12 @@ import { CountryCompareComponent } from "./country-compare/country-compare.compo
 
 
 export const CountryRoutes: Routes = [
-  { path: "", component: CountryListComponent },
+  {
+    path: "country-list",
+    component: CountryListComponent,
+  },
   { path: "compare", component: CountryCompareComponent },
+  // { path: "country-details", component: CountryDetailComponent },
+  { path: "", pathMatch: "full", redirectTo: "country-list" },
+  { path: "**", redirectTo: "country-list" },
 ]; 

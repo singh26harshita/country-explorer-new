@@ -12,3 +12,4 @@ export const SORT_OPTIONS = [
   { label: "Population", value: "population" },
   { label: "Area", value: "area" },
 ];
+

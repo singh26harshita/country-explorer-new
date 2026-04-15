@@ -1,4 +1,4 @@
-export type Country = {
+export interface Country {
   flags: {
     png: string;
   };
@@ -15,9 +15,9 @@ export type Country = {
   };
   area: number;
   capital: string;
-  borders: string[];
-  timezones: string[];
-};
+  borders: Array<string>;
+  timezones: Array<string>;
+}
 
 export type Currency = {
   name: string;
@@ -27,4 +27,15 @@ export type Currency = {
 export type Options = {
   label: string;
   value: string;
+};
+
+export type loadingState = {
+  state: "loading" | "error" | "success";
+  errorMessage?: string;
+};
+
+export type filterState = {
+  search: string;
+  region: string;
+  sort: string | null;
 };
